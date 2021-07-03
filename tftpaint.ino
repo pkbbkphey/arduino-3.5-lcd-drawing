@@ -1,6 +1,6 @@
   /*
    * CODE BY PBK IN 2021/7/2
-   * REFERENCE : https://www.instructables.com/Absolute-Beginners-Guide-to-TFT-LCD-Displays-by-Ar/
+   * for fun!!!
    */
   
   #include <MCUFRIEND_kbv.h>  // 
