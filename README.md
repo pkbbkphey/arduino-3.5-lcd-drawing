@@ -21,7 +21,3 @@ change the code from line 40 to 44, just like the code below.
 #define XP 9
 
 這幾行
-# arduino-3.5-lcd-drawing
-Enjoy it  :)
-
-希望你喜歡！
