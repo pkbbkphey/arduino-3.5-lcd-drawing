@@ -1,54 +1,46 @@
   /*
+   * CODE BY PBK IN 2021/7/2
    * REFERENCE : https://www.instructables.com/Absolute-Beginners-Guide-to-TFT-LCD-Displays-by-Ar/
    */
   
-  #include <MCUFRIEND_kbv.h>
-  #include <Adafruit_GFX.h>    // Core graphics library
-  #include <TouchScreen.h>
+  #include <MCUFRIEND_kbv.h>  // 
+  #include <Adafruit_GFX.h>   // the library must be included
+  #include <TouchScreen.h>    // 必須匯入函式庫
   
   #if defined(__SAM3X8E__)
       #undef __FlashStringHelper::F(string_literal)
       #define F(string_literal) string_literal
   #endif
   
-  // wiring with UNO or Mega2560:
-  //--------------POWER Pins--------------------------------
-  //   5V  connects to DC 5V
-  //   GND connects to Ground
-  //   3V3 do not need to connect(NC)
-  //--------------LCD Display Pins--------------------------
-  //   LCD_RD   connects to Analog pin A0  
-  //   LCD_WR   connects to Analog pin A1  
-  //   LCD_RS   connects to Analog pin A2  
-  //   LCD_CS   connects to Analog pin A3  
-  //   LCD_RST  connects to Analog pin A4  
-  //   LCD_D0   connects to digital pin 8  
-  //   LCD_D1   connects to digital pin 9  
-  //   LCD_D2   connects to digital pin 2
-  //   LCD_D3   connects to digital pin 3
-  //   LCD_D4   connects to digital pin 4
-  //   LCD_D5   connects to digital pin 5
-  //   LCD_D6   connects to digital pin 6
-  //   LCD_D7   connects to digital pin 7
-  //--------------SD-card fuction Pins ----------------------
-  //This Connection Only for UNO, Do not support Mega2560
-  //because they use different Hardware-SPI Pins
-  //SD_SS    connects to digital pin 10
-  //SD_DI    connects to digital pin 11
-  //SD_DO    connects to digital pin 12
-  //SD_SCK   connects to digital pin 13
+  /* wiring with UNO or Mega2560:
+   *   5V      ==>  5V
+   *   GND     ==>  Ground
+   *   LCD_RD  ==>  A0  
+   *   LCD_WR  ==>  A1  
+   *   LCD_RS  ==>  A2  
+   *   LCD_CS  ==>  A3  
+   *   LCD_RST ==>  A4  
+   *   LCD_D0  ==>  8  
+   *   LCD_D1  ==>  9  
+   *   LCD_D2  ==>  2
+   *   LCD_D3  ==>  3
+   *   LCD_D4  ==>  4
+   *   LCD_D5  ==>  5
+   *   LCD_D6  ==>  6
+   *   LCD_D7  ==>  7
+   */
   
   
-  #define LCD_RESET A4 // Can alternately just connect to Arduino's reset pin
-  #define LCD_CS A3   // Chip Select goes to Analog 3
-  #define LCD_CD A2  // Command/Data goes to Analog 2
-  #define LCD_WR A1  // LCD Write goes to Analog 1
-  #define LCD_RD A0 // LCD Read goes to Analog 0
+  #define LCD_RESET A4
+  #define LCD_CS A3
+  #define LCD_CD A2
+  #define LCD_WR A1
+  #define LCD_RD A0
   
-  #define YP A2  // must be an analog pin, use "An" notation!
-  #define XM A3  // must be an analog pin, use "An" notation!
-  #define YM 8   // can be a digital pin
-  #define XP 9   // can be a digital pin    //XP = 9, XM = A3, YP = A2, YM = 8;
+  #define YP A2  // !!!!! YOU SHOULD GO TO (FILE > EXAMPLES > MCUFRIEND_kbv > diagnose_Touchpins) to check out the pins of your touch screen !!!!!
+  #define XM A3  // 重要!!!必須先到 (檔案 > 範例 > MCUFRIEND_kbv > diagnose_Touchpins) 來確認觸控螢幕的腳位序號是否正確，它會提示你這裡應該改成什麼
+  #define YM 8
+  #define XP 9
   
   //Param For 3.5"
   #define TS_MINX 127
