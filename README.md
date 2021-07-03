@@ -6,7 +6,11 @@ You can draw whatever you want on the tft screen, and then erase them. Also, it'
 # WARNING
 You should go to(FILE > EXAMPLES > MCUFRIEND_kbv > diagnose_Touchpins) to check out the pins of your touch screen
 必須先到 (檔案 > 範例 > MCUFRIEND_kbv > diagnose_Touchpins) 來確認觸控螢幕的腳位序號是否正確，它會提示你程式碼裡面的第40~43行應該改成什麼，也就是
+
 #define YP A2  // default
+
 #define XM A3  // 默認值
+
 #define YM 8
+
 #define XP 9
