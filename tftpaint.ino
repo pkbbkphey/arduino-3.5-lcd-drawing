@@ -37,7 +37,7 @@
   #define LCD_WR A1
   #define LCD_RD A0
   
-  #define YP A2  // !!!!! YOU SHOULD GO TO (FILE > EXAMPLES > MCUFRIEND_kbv > diagnose_Touchpins) to check out the pins of your touch screen !!!!!
+  #define YP A2  // !!!!! YOU SHOULD GO TO (FILE > EXAMPLES > MCUFRIEND_kbv > diagnose_Touchpins) TO CHECK OUT THE PINS OF THE TOUCH SCREEN !!!!!
   #define XM A3  // 重要!!!必須先到 (檔案 > 範例 > MCUFRIEND_kbv > diagnose_Touchpins) 來確認觸控螢幕的腳位序號是否正確，它會提示你這裡應該改成什麼
   #define YM 8
   #define XP 9
