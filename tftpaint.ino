@@ -58,6 +58,7 @@
   #define MAGENTA 0xF81F
   #define YELLOW  0xFFE0
   #define WHITE   0xFFFF
+  #define GRAY    0x222F
   uint16_t CUSTOM = 0xFFFF;  // 自訂 
   uint16_t CUSTOM_r = 0xF00F;
   uint16_t CUSTOM_g = 0x0F0F;
@@ -150,8 +151,16 @@
     tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
     tft.fillRect(BOXSIZE * 6, 0, BOXSIZE, BOXSIZE, WHITE);
     tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
+    tft.drawRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, GRAY);                // draw a gray frame to make the black color recognizable    為了區別背景與黑色
+    
     tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
     tft.fillRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, RED);
+    tft.setTextColor(WHITE);  
+    tft.setTextSize(1);
+    tft.setCursor(302, 2);
+    tft.println("era");
+    tft.setCursor(304, 10);
+    tft.println("se");
    
     tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);                         // 1st layer tool, a white frame standing for preset color      第一層工具列：顏色選單預設：紅色外白框
     currentcolor = RED;                                                  // preset color: red       預設：紅色畫筆
@@ -245,6 +254,15 @@
            tft.drawRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, WHITE);
            delay(100);
            tft.fillRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, RED);
+           tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
+           tft.fillRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, RED);
+           tft.setTextColor(WHITE);  
+           tft.setTextSize(1);
+           tft.setCursor(302, 2);
+           tft.println("era");
+           tft.setCursor(304, 10);
+           tft.println("se");
+           
            tft.fillRect(0, 40, 320, 440, currentcolor);
          }
   
@@ -256,7 +274,10 @@
             if(oldcolor == BLUE) tft.fillRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, BLUE);
             if(oldcolor == MAGENTA) tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
             if(oldcolor == WHITE) tft.fillRect(BOXSIZE * 6, 0, BOXSIZE, BOXSIZE, WHITE);
-            if(oldcolor == BLACK) tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
+            if(oldcolor == BLACK){
+              tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
+              tft.drawRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, GRAY);
+            }
             if(oldcolor == CUSTOM) tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
          }
         for(int i = 0; i <= 100; i ++){                                      // to refill the lenth instructer into the new color    換顏色時也改變線條粗細指示工具的顏色
@@ -325,7 +346,10 @@
            if(oldcolor == BLUE) tft.fillRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, BLUE);
            if(oldcolor == MAGENTA) tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
            if(oldcolor == WHITE) tft.fillRect(BOXSIZE * 6, 0, BOXSIZE, BOXSIZE, WHITE);
-           if(oldcolor == BLACK) tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
+           if(oldcolor == BLACK){
+             tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
+             tft.drawRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, GRAY);
+           }
            if(oldcolor == CUSTOM) tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
         }
       }
