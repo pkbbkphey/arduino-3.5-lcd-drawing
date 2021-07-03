@@ -42,19 +42,14 @@
   #define YM 8
   #define XP 9
   
-  //Param For 3.5"
-  #define TS_MINX 127
+  #define TS_MINX 127  // 
   #define TS_MAXX 915
   
   #define TS_MINY 125
-  #define TS_MAXY 965    // TS_LEFT = 136, TS_RT = 907, TS_TOP = 942, TS_BOT = 139;
-  // For better pressure precision, we need to know the resistance
-  // between X+ and X- Use any multimeter to read it
-  // For the one we're using, its 300 ohms across the X plate
+  #define TS_MAXY 965
   TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
   
-  
-  // Assign human-readable names to some common 16-bit color values:
+
   #define	BLACK   0x0000  // 0x(R)(G)(B)(對比度?越大越低)
   #define	BLUE    0x001F  // UTFT color code
   #define	RED     0xF800
@@ -73,51 +68,66 @@
   
   #define BOXSIZE 20
   //#define PENRADIUS 0.5
-  byte PENRADIUS = 2;
+  byte PENRADIUS = 2;  // radius of the pen   畫筆粗細的半徑
   byte prev_PENRADIUS = 2;
   int oldcolor, currentcolor;
   
   void setup(void) {
     Serial.begin(9600);
-    Serial.println(F("TFT LCD test"));
-  
+    
     tft.reset();
   
-    uint16_t identifier = tft.readID();
-    if(identifier == 0x9325) {
+    uint16_t identifier = tft.readID();   //  辨識驅動器類型
+    if(identifier == 0x9325){
       Serial.println(F("Found ILI9325 LCD driver"));
-    } else if(identifier == 0x9328) {
+    } 
+    else if(identifier == 0x9328){
       Serial.println(F("Found ILI9328 LCD driver"));
-    } else if(identifier == 0x4535) {
+    } 
+    else if(identifier == 0x4535){
       Serial.println(F("Found LGDP4535 LCD driver"));
-    }else if(identifier == 0x7575) {
+    }
+    else if(identifier == 0x7575){
       Serial.println(F("Found HX8347G LCD driver"));
-    } else if(identifier == 0x9595) {
+    } 
+    else if(identifier == 0x9595){
       Serial.println(F("Found HX8347-I LCD driver"));
-    } else if(identifier == 0x4747) {
+    } 
+    else if(identifier == 0x4747){
       Serial.println(F("Found HX8347-D LCD driver"));
-    } else if(identifier == 0x8347) {
+    } 
+    else if(identifier == 0x8347){
       Serial.println(F("Found HX8347-A LCD driver"));
-    }else if(identifier == 0x9341) {
+    }
+    else if(identifier == 0x9341){
       Serial.println(F("Found ILI9341 LCD driver"));
-    }else if(identifier == 0x7783) {
+    }
+    else if(identifier == 0x7783){
       Serial.println(F("Found ST7781 LCD driver"));
-    }else if(identifier == 0x8230) {
+    }
+    else if(identifier == 0x8230){
       Serial.println(F("Found UC8230 LCD driver"));  
-    }else if(identifier == 0x8357) {
+    }
+    else if(identifier == 0x8357){
       Serial.println(F("Found HX8357D LCD driver"));
-    } else if(identifier==0x0101){     
+    } 
+    else if(identifier==0x0101){     
         identifier=0x9341;
         Serial.println(F("Found 0x9341 LCD driver"));
-    }else if(identifier==0x7793){     
+    }
+    else if(identifier==0x7793){     
          Serial.println(F("Found ST7793 LCD driver"));
-    }else if(identifier==0xB509){     
+    }
+    else if(identifier==0xB509){     
          Serial.println(F("Found R61509 LCD driver"));
-    }else if(identifier==0x9486){     
+    }
+    else if(identifier==0x9486){     
          Serial.println(F("Found ILI9486 LCD driver"));
-    }else if(identifier==0x9488){     
+    }
+    else if(identifier==0x9488){     
          Serial.println(F("Found ILI9488 LCD driver"));
-    }else {
+    }
+    else {
       Serial.print(F("Unknown LCD driver chip: "));
       Serial.println(identifier, HEX);
       Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
@@ -132,7 +142,7 @@
   
     tft.fillScreen(BLACK);
   
-    tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);  // 第一層工具列：顏色選單
+    tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);                           // 1st layer tool, standard color select   第一層工具列：標準顏色選單
     tft.fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, YELLOW);
     tft.fillRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, GREEN);
     tft.fillRect(BOXSIZE * 3, 0, BOXSIZE, BOXSIZE, CYAN);
@@ -143,46 +153,30 @@
     tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
     tft.fillRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, RED);
    
-    tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);  // 第一層工具列：顏色選單預設：紅色外白框
-    currentcolor = RED;
+    tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);                         // 1st layer tool, a white frame standing for preset color      第一層工具列：顏色選單預設：紅色外白框
+    currentcolor = RED;                                                  // preset color: red       預設：紅色畫筆
 
-    for(int i = 0; i <= 100; i ++){  // 第一層工具列：粗細調節
+    for(int i = 0; i <= 100; i ++){                                      // 1st layer tool, for adjusting the pen lenth     第一層工具列：粗細調節
       tft.fillCircle(i + 170, BOXSIZE * 0.5, i / 15, currentcolor);
     }
-    tft.fillRect(200, 3, 3, BOXSIZE - 6, WHITE);  // 粗細指示游標
+    tft.fillRect(200, 3, 3, BOXSIZE - 6, WHITE);                         // instruction of the pen lenth      粗細指示游標
     
 
     //tft.fillRect(BOXSIZE * 0.5, BOXSIZE + 2, 100, BOXSIZE - 4, WHITE);
-    for(long j = 0; j < 16; j += 1){  // 第二層工具列：RGB顏色自訂
-      tft.fillCircle(10 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (4096 * j));
-      //CUSTOM = 0xF00F
-      //Serial.println(uint16_t(4096 * j, HEX));  //uint16_t RED = 0x0800 + 0xF000; <== 成功
-      //delay(50);
+    for(long j = 0; j < 16; j += 1){                                     // 2nd layer tool, manual color adjustment     第二層工具列：RGB顏色自訂
+      tft.fillCircle(10 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (4096 * j)); // R
     }
-    tft.drawRect(85, 23, 4, BOXSIZE - 6, WHITE);  // 顏色深淺指示游標預設
+    tft.drawRect(85, 23, 4, BOXSIZE - 6, WHITE);                         // instruction of the "R" color percentage     顏色深淺指示游標預設
     for(long j = 0; j < 16; j += 1){
-      tft.fillCircle(102 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (128 * j));
-      //Serial.println(uint16_t(4096 * j, HEX));
+      tft.fillCircle(102 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (128 * j)); // G 
     }
     tft.drawRect(177, 23, 4, BOXSIZE - 6, WHITE);
     for(long j = 0; j < 16; j += 1){
-      tft.fillCircle(194 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (2 * j));
-      //Serial.println(uint16_t(4096 * j, HEX));
+      tft.fillCircle(194 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (2 * j));   // B
     }
     tft.drawRect(269, 23, 4, BOXSIZE - 6, WHITE);
     
-    
     pinMode(13, OUTPUT);
-
-    /*for(uint16_t k = 0; k <= 300; k ++){
-      tft.vertScroll(0, 300, k);
-      delay(10);
-    }
-    delay(1000);
-    for(uint16_t k = 300; k >= 0; k -= 1){
-      tft.vertScroll(0, 300, k);
-      delay(10);
-    }*/
   }
   
   #define MINPRESSURE 10
@@ -193,82 +187,68 @@
     TSPoint p = ts.getPoint();
     digitalWrite(13, LOW);
   
-    // if sharing pins, you'll need to fix the directions of the touchscreen pins
     //pinMode(XP, OUTPUT);
     pinMode(XM, OUTPUT);
     pinMode(YP, OUTPUT);
     //pinMode(YM, OUTPUT);
+
   
-    // we have some minimum pressure we consider 'valid'
-    // pressure of 0 means no pressing!
-  
-    if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
-      /*
-      Serial.print("X = "); Serial.print(p.x);
-      Serial.print("\tY = "); Serial.print(p.y);
-      Serial.print("\tPressure = "); Serial.println(p.z);
-      */
-      
-      if (p.y < (TS_MINY-5)) {
-        Serial.println("erase");
-        // press the bottom of the screen to erase 
-        tft.fillRect(0, BOXSIZE, tft.width(), tft.height()-BOXSIZE, BLACK);
-      }
+    if(p.z > MINPRESSURE && p.z < MAXPRESSURE) {                             // if being pressed     被按下了
   
       p.x = tft.width()-map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
       p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
       //p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
       //p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
    
-      if (p.y < BOXSIZE){
-         oldcolor = currentcolor;
+      if(p.y < BOXSIZE){                                                     // 1st layer tool being pressed     按了第一層工具列
+         oldcolor = currentcolor;                                            // record the last used color     紀錄上次用的顏色
   
-         if (p.x < BOXSIZE){ 
+         if(p.x < BOXSIZE){                                                  // the red buttom is pressed    按下紅色按鈕
            currentcolor = RED; 
-           tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);
+           tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);                      // instruct the color using now      指示現在的顏色
          } 
-         else if (p.x < BOXSIZE * 2){
+         else if(p.x < BOXSIZE * 2){
            currentcolor = YELLOW;
            tft.drawRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, WHITE);
          } 
-         else if (p.x < BOXSIZE * 3){
-           currentcolor = GREEN;     // 青草綠
+         else if(p.x < BOXSIZE * 3){
+           currentcolor = GREEN;                                             // 青草綠
            tft.drawRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, WHITE);
          } 
-         else if (p.x < BOXSIZE*4){
-           currentcolor = CYAN;      // 天空藍
+         else if(p.x < BOXSIZE*4){
+           currentcolor = CYAN;                                              // 天空藍 (其實不太像~)
            tft.drawRect(BOXSIZE * 3, 0, BOXSIZE, BOXSIZE, WHITE);
          } 
-         else if (p.x < BOXSIZE*5){
+         else if(p.x < BOXSIZE*5){
            currentcolor = BLUE;
            tft.drawRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, WHITE);
          } 
-         else if (p.x < BOXSIZE * 6){
-           currentcolor = MAGENTA;   // 紫
+         else if(p.x < BOXSIZE * 6){
+           currentcolor = MAGENTA;                                           // 洋紅色 (但是偏紫)
            tft.drawRect(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, WHITE);
          }
-         else if (p.x < BOXSIZE * 7){
+         else if(p.x < BOXSIZE * 7){
            currentcolor = WHITE;
            tft.drawRect(BOXSIZE * 6, 0, BOXSIZE, BOXSIZE, BLACK);
          }
-         else if (p.x < BOXSIZE*8){
+         else if(p.x < BOXSIZE*8){
            currentcolor = BLACK;
            tft.drawRect(BOXSIZE*7, 0, BOXSIZE, BOXSIZE, WHITE);
          }
-         else if (p.x > BOXSIZE * 14  &&  p.x < BOXSIZE * 15){
+         else if(p.x > BOXSIZE * 14  &&  p.x < BOXSIZE * 15){                // custom color    自訂顏色顯示格
            currentcolor = CUSTOM;
            tft.drawRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, WHITE);
            //delay(100);
            //tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
          }
-         else if (p.x > BOXSIZE * 15){
+         else if(p.x > BOXSIZE * 15){                                        // erase all, and change background into the color using now    全部清除 (以目前的顏色作為背景)
            tft.drawRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, WHITE);
            delay(100);
            tft.fillRect(BOXSIZE * 15, 0, BOXSIZE, BOXSIZE, RED);
            tft.fillRect(0, 40, 320, 440, currentcolor);
          }
   
-         if (oldcolor != currentcolor) {
+         if(oldcolor != currentcolor){                                       // erase the white frame if not using the color    消除指示畫筆顏色用的白框
             if(oldcolor == RED) tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);
             if(oldcolor == YELLOW) tft.fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, YELLOW);
             if(oldcolor == GREEN) tft.fillRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, GREEN);
@@ -279,62 +259,59 @@
             if(oldcolor == BLACK) tft.fillRect(BOXSIZE * 7, 0, BOXSIZE, BOXSIZE, BLACK);
             if(oldcolor == CUSTOM) tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);
          }
-        for(int i = 0; i <= 100; i ++){  // 換顏色
+        for(int i = 0; i <= 100; i ++){                                      // to refill the lenth instructer into the new color    換顏色時也改變線條粗細指示工具的顏色
           tft.fillCircle(i + 170, BOXSIZE * 0.5, i / 15, currentcolor);
           delay(1);
         }
         tft.fillRect(PENRADIUS * 15 + 170, 3, 3, BOXSIZE - 6, WHITE);
 
-        if(p.x > 150  &&  p.x < 280){
+        if(p.x > 150  &&  p.x < 280){                                        // detect the request pen lenth    偵測並計算指定的線條粗細
           PENRADIUS = (p.x - 170) / 15;
           //tft.fillRect(p.x, BOXSIZE + 3, 3, BOXSIZE - 6, WHITE);
           if(prev_PENRADIUS != PENRADIUS){
-            tft.fillRect(160, 0, 120, BOXSIZE, BLACK);
+            tft.fillRect(160, 0, 120, BOXSIZE, BLACK);                       // fill it black    先蓋掉它
             for(int i = 0; i <= 100; i ++){
-              tft.fillCircle(i + 170, BOXSIZE * 0.5, i / 15, currentcolor);
+              tft.fillCircle(i + 170, BOXSIZE * 0.5, i / 15, currentcolor);  // re-draw the icon    畫回工具
             }
-            tft.fillRect(PENRADIUS * 15 + 170, 3, 3, BOXSIZE - 6, WHITE);
+            tft.fillRect(PENRADIUS * 15 + 170, 3, 3, BOXSIZE - 6, WHITE);    // re-draw the instructer    畫回線條粗細指示游標
             //delay(3);
             prev_PENRADIUS = PENRADIUS;
           }
         }
       }
       
-      else if(p.y > BOXSIZE  &&  p.y < BOXSIZE * 2){
+      else if(p.y > BOXSIZE  &&  p.y < BOXSIZE * 2){                            // 2ndt layer tool being pressed     按了第二層工具列
         oldcolor = currentcolor;
-        if(p.x > 4  &&  p.x < 91){
-          CUSTOM_r = 4096 * int((constrain(p.x, 10, 84) - 10) / 5);  // - 61440
-          //tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM_r);  // 右上角顏色指示器
-          tft.fillRect(0, BOXSIZE, 93, BOXSIZE, BLACK);
-          for(long j = 0; j < 16; j += 1){  // 第二層工具列：RGB顏色自訂
-            tft.fillCircle(10 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (4096 * j));
+        if(p.x > 4  &&  p.x < 91){                                              // R (caculate the red color (HEX))     偵測並計算紅色占比(十六進位)
+          CUSTOM_r = 4096 * int((constrain(p.x, 10, 84) - 10) / 5);             // 16 ^ 3 = 4096
+          tft.fillRect(0, BOXSIZE, 93, BOXSIZE, BLACK);                         // fill it black    先蓋掉它
+          for(long j = 0; j < 16; j += 1){
+            tft.fillCircle(10 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (4096 * j));  // re-draw the icon    畫回工具
           }
-          tft.drawRect(constrain(p.x, 10, 85), 23, 4, BOXSIZE - 6, WHITE);  // 顏色深淺指示游標
+          tft.drawRect(constrain(p.x, 10, 85), 23, 4, BOXSIZE - 6, WHITE);      // re-draw the instructer  顏色深淺指示游標
         }
-        else if(p.x > 96  &&  p.x < 183){
+        else if(p.x > 96  &&  p.x < 183){                                       // G
           CUSTOM_g = 128 * int((constrain(p.x, 102, 176) - 102) / 5); 
-          //tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM_g);  // 右上角顏色指示器
           tft.fillRect(92, BOXSIZE, 93, BOXSIZE, BLACK);
           for(long j = 0; j < 16; j += 1){
             tft.fillCircle(102 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (128 * j));
           }
-          tft.drawRect(constrain(p.x, 102, 177), 23, 4, BOXSIZE - 6, WHITE);  // 顏色深淺指示游標
+          tft.drawRect(constrain(p.x, 102, 177), 23, 4, BOXSIZE - 6, WHITE);
         }
-        else if(p.x > 188  &&  p.x < 275){
+        else if(p.x > 188  &&  p.x < 275){                                      // B
           CUSTOM_b = 2 * int((constrain(p.x, 193, 267) - 193) / 5); 
-          //tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM_b);  // 右上角顏色指示器
           tft.fillRect(184, BOXSIZE, 93, BOXSIZE, BLACK);
           for(long j = 0; j < 16; j += 1){
             tft.fillCircle(194 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (2 * j));
           }
           //tft.drawRect(269, 23, 4, BOXSIZE - 6, WHITE);
-          tft.drawRect(constrain(p.x, 193, 268), 23, 4, BOXSIZE - 6, WHITE);  // 顏色深淺指示游標
+          tft.drawRect(constrain(p.x, 193, 268), 23, 4, BOXSIZE - 6, WHITE);
         }
         CUSTOM = CUSTOM_r + CUSTOM_g + CUSTOM_b;
-        tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);  // 右上角顏色指示器
+        tft.fillRect(BOXSIZE * 14, 0, BOXSIZE, BOXSIZE, CUSTOM);                // fill the custom color icon    右上角顏色指示器刷新
         currentcolor = CUSTOM;
 
-        for(int i = 0; i <= 100; i ++){  // 換粗細調節顏色
+        for(int i = 0; i <= 100; i ++){                                         // change the color of lenth icon    刷新粗細調節器顏色
           tft.fillCircle(i + 170, BOXSIZE * 0.5, i / 15, currentcolor);
           delay(1);
         }
@@ -353,8 +330,8 @@
         }
       }
       
-      if(((p.y-PENRADIUS) > BOXSIZE * 2)  &&  ((p.y+PENRADIUS) < tft.height())){
-        tft.fillCircle(p.x, p.y, PENRADIUS, currentcolor);
+      if(((p.y-PENRADIUS) > BOXSIZE * 2)  &&  ((p.y+PENRADIUS) < tft.height())){  // if the painting area being pressed    繪畫區
+        tft.fillCircle(p.x, p.y, PENRADIUS, currentcolor);                        // print the line by several circles    用很多圓堆成線
       }
     }
   }
