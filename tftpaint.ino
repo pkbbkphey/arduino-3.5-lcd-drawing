@@ -50,8 +50,8 @@
   TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
   
 
-  #define	BLACK   0x0000  // 0x(R)(G)(B)(對比度?越大越低)
-  #define	BLUE    0x001F  // UTFT color code
+  #define	BLACK   0x0000  // UTFT color code
+  #define	BLUE    0x001F  // "RGB565"
   #define	RED     0xF800
   #define	GREEN   0x07E0
   #define CYAN    0x07FF
@@ -60,9 +60,9 @@
   #define WHITE   0xFFFF
   #define GRAY    0x222F
   uint16_t CUSTOM = 0xFFFF;  // 自訂 
-  uint16_t CUSTOM_r = 0xF00F;
-  uint16_t CUSTOM_g = 0x0F0F;
-  uint16_t CUSTOM_b = 0x00FF;
+  uint16_t CUSTOM_r = 0xF800;
+  uint16_t CUSTOM_g = 0x07E0;
+  uint16_t CUSTOM_b = 0x001F;
   
   
   MCUFRIEND_kbv tft;
@@ -304,7 +304,7 @@
       else if(p.y > BOXSIZE  &&  p.y < BOXSIZE * 2){                            // 2ndt layer tool being pressed     按了第二層工具列
         oldcolor = currentcolor;
         if(p.x > 4  &&  p.x < 91){                                              // R (caculate the red color (HEX))     偵測並計算紅色占比(十六進位)
-          CUSTOM_r = 4096 * int((constrain(p.x, 10, 84) - 10) / 5);             // 16 ^ 3 = 4096
+          CUSTOM_r = 2048 * int((constrain(p.x, 10, 85) - 10) * 31 / 75);
           tft.fillRect(0, BOXSIZE, 93, BOXSIZE, BLACK);                         // fill it black    先蓋掉它
           for(long j = 0; j < 16; j += 1){
             tft.fillCircle(10 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (4096 * j));  // re-draw the icon    畫回工具
@@ -312,7 +312,7 @@
           tft.drawRect(constrain(p.x, 10, 85), 23, 4, BOXSIZE - 6, WHITE);      // re-draw the instructer  顏色深淺指示游標
         }
         else if(p.x > 96  &&  p.x < 183){                                       // G
-          CUSTOM_g = 128 * int((constrain(p.x, 102, 176) - 102) / 5); 
+          CUSTOM_g = 32 * int((constrain(p.x, 102, 177) - 102) * 63 / 75);  
           tft.fillRect(92, BOXSIZE, 93, BOXSIZE, BLACK);
           for(long j = 0; j < 16; j += 1){
             tft.fillCircle(102 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (128 * j));
@@ -320,7 +320,7 @@
           tft.drawRect(constrain(p.x, 102, 177), 23, 4, BOXSIZE - 6, WHITE);
         }
         else if(p.x > 188  &&  p.x < 275){                                      // B
-          CUSTOM_b = 2 * int((constrain(p.x, 193, 267) - 193) / 5); 
+          CUSTOM_b = int((constrain(p.x, 193, 268) - 193) * 31 / 75); 
           tft.fillRect(184, BOXSIZE, 93, BOXSIZE, BLACK);
           for(long j = 0; j < 16; j += 1){
             tft.fillCircle(194 + j * 5, BOXSIZE * 1.5, 6, 0x0000 + (2 * j));
