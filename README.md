@@ -1,5 +1,5 @@
 # test photo
-https://drive.google.com/drive/u/2/folders/1DTzNWSgJHomLARNRpN3t72EY1io3Rw3Q
+https://drive.google.com/drive/folders/1DTzNWSgJHomLARNRpN3t72EY1io3Rw3Q?usp=sharing
 
 # hardware
 First of all, I used an Arduino UNO for the basic of this project, and a 3.5" tft lcd module with touch screen (driver: ILI9488) is also needed.
