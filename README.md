@@ -1,5 +1,5 @@
 # test photo #
-<img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo.jpg" width="30%"> <img src="hhttps://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo4.jpg" width="42.61%"> <br>
+<img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo.jpg" width="30%"> <img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo4.jpg" width="42.61%"> <br>
 <img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo6.jpg" width="46.77%"><img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo2.jpg" width="26.3%"> <br>
 <img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo3.jpg" width="36.5%"><img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/test_photo5.jpg" width="36.5%">
 
