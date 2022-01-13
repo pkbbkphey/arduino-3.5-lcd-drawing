@@ -11,7 +11,7 @@ First of all, I used an Arduino UNO for the basic of this project, and a 3.5" tf
 You can draw whatever you want on the tft screen, and then erase them. Also, it's a graphic editting system that could pick any color manually by adjusting the "RGB" percentage, and the width of the pen can also be adjusted.
 
 可以在螢幕上任意塗鴉，也有橡皮擦的功能，除了有幾個基本色彩，還可以變更背景顏色與自定義色彩，藉由調動螢幕上的 RGB 調節器，可以混出自己想要的顏色，同時，也可以自行調整畫筆的粗細。
-# BEFORE STARTING... #
+# <img src="https://github.com/pkbbkphey/arduino-3.5-lcd-drawing/blob/main/test_photo/warming_icon.png" width="3%"> BEFORE STARTING... #
 You should go to(FILE > EXAMPLES > MCUFRIEND_kbv > diagnose_Touchpins) to check out the pins of your touch screen, and you will know how to 
 change the code from line 40 to 43, just like the code below.
 
